@@ -1,0 +1,117 @@
+<html lang="en">
+  <head>
+    <title>Database update</title>
+    <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="static/skeleton.css">
+    <link rel="stylesheet" type="text/css" href="static/normalize.css" >
+    <script src="static/jquery.min.js" ></script>
+    <script src="static/db.js"></script>
+<link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+  
+<style>
+    td,th{
+        margin:4px;
+        padding: 10px;
+        text-align: center;
+    }
+
+</style>
+
+</head>
+
+  <body>
+    <div class="container" style="margin-top:100px;">
+            <h4 style="text-align:center;">Complete Information on Cloud for Designing Photonic Filter</h4>
+            <h5 style="text-align:center;">The input and output parameters of Silicon Photonic structures are : </h5>
+        <div class="row">
+            <div style="text-align:center;">
+                    <label for="wavelength">Allowed wavelength : </label>
+                    <input type="text" placeholder="Allowed wavelength" id="wavelength">
+            </br>
+                    <button style="margin-top:5px;" class="button-primary" id="submit" >Submit</button>
+                  
+            </div>
+        </div>
+
+        <div class="row">
+                
+            <div style="text-align:center;align-content: center; margin-top: 30px;">
+                    <div id="error" style="color:tomato;">Wavelength values out of range</div>
+                <div id="responseTable">
+                    <table border="2px;" cellspacing="5" style="margin-left:auto; margin-right:auto;">
+                        <thead style="background-color:#0014ff; color: white;font-size: 13px;">
+                            <th colspan="2">Thickness in nm</th>
+                            <th>Grating Period in nm</th>
+                            <th>Length of Photonic Structure in nm</th>
+                            <th>Allowed Wavelength in nm</th>
+                        </thead>
+                        <tbody style="font-weight:bold; font-size:14px;">
+                            <tr>
+                                <td>Odd layer (t1)</td>
+                                <td>Even layer (t2)</td>
+                                <td>(t1+t2)</td>
+                                <td>32(t1+t2)</td>
+                                <td>-</td>
+                            
+                            </tr>
+                            <tr>
+                                <td id="odd"></td>
+                                <td id="even"></td>
+                                <td id="grating"></td>
+                                <td id="length"></td>
+                                <td id="wlength"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <center>
+                        <img id="graph" src="" height="60%" />
+                    </center>
+                </div>
+            </div>
+         
+        </div>
+    </div>
+
+    <script type="text/javascript">
+      $("document").ready(function(){
+            console.log("Ready");
+            $("#responseTable").hide();
+            $("#error").hide();
+            $("#graph").hide();
+            $("#submit").click(function(e){
+                var value = $("#wavelength")
+                //console.log(value.val());
+                renderTable(value.val());
+            });
+        });
+        function renderTable(value){
+            console.log(parseInt(value))
+            if (parseInt(value)<1500 || parseInt(value)>1590){
+                    $("#error").show();
+                    $("#responseTable").hide();
+                    $("#graph").hide();
+            }else{
+                
+                $("#error").hide();
+                $("#responseTable").show();
+                $("#graph").show();
+            //console.log(data)
+            var rdata = data[value]
+            //console.log(rdata)
+            
+            $("#odd").html(rdata[0]);
+            $("#even").html(rdata[1]);
+            $("#grating").html(rdata[0]+rdata[1]);
+            $("#length").html(32*(rdata[0]+rdata[1]));
+           
+            $("#wlength").html(value);
+            $("#graph").attr('src',`static/images/${value}.jpg`);
+            }
+            
+        }  
+    </script>
+  </body>
+
+  
+</html>
